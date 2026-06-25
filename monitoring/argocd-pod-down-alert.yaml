@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: argocd-pod-down-alert
+  namespace: argocd
+spec:
+  groups:
+  - name: argocd.rules
+    rules:
+    - alert: ArgoCDPodDown
+      expr: kube_pod_status_phase{namespace="argocd",phase="Running"} == 0
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: "ArgoCD pod {{ $labels.pod }} is down"
+        description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has not been running for more than 2 minutes."
