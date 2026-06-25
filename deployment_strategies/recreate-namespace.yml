@@ -1,0 +1,5 @@
+### Namespace file for Rescreate 
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: recreate-ns
