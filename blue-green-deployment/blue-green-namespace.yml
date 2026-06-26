@@ -1,0 +1,7 @@
+## Namespace file for Blue-Green Deployment
+
+apiVersion: v1
+kind: Namespace
+
+metadata:
+  name: blue-green-ns

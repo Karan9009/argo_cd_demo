@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-shop-green
+  namespace: blue-green-ns
+  labels:
+    app: online-shop-green
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: online-shop-green
+  template:   # 👈 Correct spelling (was "templete")
+    metadata:
+      labels:
+        app: online-shop-green
+    spec:
+      containers:
+      - name: online-shop-green
+        image: amitabhdevops/online_shop   # 👈 Correct key (was "images")
+        resources:                         # 👈 Correct key (was "resource")
+          limits:
+            cpu: "500m"                    # 👈 Added "m" for millicores
+            memory: "512Mi"                # 👈 Changed Gi → Mi (Gi would be huge)
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-shop-green-deployment-service
+  namespace: blue-green-ns
+spec:
+  selector:
+    app: online-shop-green
+  type: NodePort
+  ports:
+    - protocol: TCP     # 👈 Correct spelling (was "protocal")
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000   # 👈 Valid NodePort range (30000–32767)
